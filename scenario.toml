@@ -9,3 +9,6 @@ env = {}
 
 [config]
 # Add your assessment config here
+iterations_limit = 5
+mutations_per_iteration = 3
+score_threshold = 50
