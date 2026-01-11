@@ -1,14 +1,13 @@
 [green_agent]
-agentbeats_id = ""
+image= "ghcr.io/hashiru-ai/naamse-naamse-green-agent:latest"
 env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}", LOG_LEVEL = "INFO" }
 
 [[participants]]
-agentbeats_id = ""
-name = "defender"
-env = {}
+image = "ghcr.io/hashiru-ai/naamse-naamse-purple-agent:latest"
+name = "agent"
+env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}", LOG_LEVEL = "INFO" }
 
 [config]
-# Add your assessment config here
-iterations_limit = 5
+iterations_limit = 3
 mutations_per_iteration = 3
 score_threshold = 50
