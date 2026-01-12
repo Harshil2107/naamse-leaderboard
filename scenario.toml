@@ -1,11 +1,11 @@
 [green_agent]
 image= "ghcr.io/hashiru-ai/naamse-naamse-green-agent:latest"
-env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}", LOG_LEVEL = "INFO" }
+env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}", LOG_LEVEL = "INFO" , NAAMSE_RANDOM_SEED=42}
 
 [[participants]]
 image = "ghcr.io/hashiru-ai/naamse-naamse-purple-agent:latest"
 name = "agent"
-env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}", LOG_LEVEL = "INFO" }
+env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}", LOG_LEVEL = "INFO"}
 
 [config]
 iterations_limit = 3
