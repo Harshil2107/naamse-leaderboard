@@ -71,6 +71,17 @@ jobs:
       - name: Run assessment
         run: docker compose up --timestamps --no-color --exit-code-from agentbeats-client --abort-on-container-exit
 
+      - name: Extract PDF reports from green agent container
+        run: |
+          set -x  # Enable verbose mode (shows each command before executing)
+          
+          # Try the copy
+          docker cp green-agent:/home/agentbeats/naamse/tmp/naamse_report_adversarial.pdf output/naamse_report_adversarial.pdf
+          docker cp green-agent:/home/agentbeats/naamse/tmp/naamse_report_benign.pdf output/naamse_report_benign.pdf
+          
+          # Verify output
+          ls -lah output/
+
       - name: Record provenance
         run: python record_provenance.py --compose docker-compose.yml --output output/provenance.json
 
@@ -83,12 +94,22 @@ jobs:
           echo "unique_name=$UNIQUE_NAME" >> $GITHUB_OUTPUT
           echo "branch_name=submission-${UNIQUE_NAME}" >> $GITHUB_OUTPUT
 
+      - name: Add PDF links to results JSON
+        run: |
+          UNIQUE_NAME="${{ steps.metadata.outputs.unique_name }}"
+          TARGET_REPO="${{ steps.target.outputs.repo }}"
+          
+          jq --arg adversarial_url "https://raw.githubusercontent.com/HASHIRU-AI/naamse-leaderboard/refs/heads/main/results/${UNIQUE_NAME}_adversarial.pdf"  \
+             --arg benign_url "https://raw.githubusercontent.com/HASHIRU-AI/naamse-leaderboard/refs/heads/main/results/${UNIQUE_NAME}_benign.pdf" \
+             '.results[0].pdf_report_urls += {adversarial_pdf_url: $adversarial_url, benign_pdf_url: $benign_url}' \
+             output/results.json > results/${{ steps.metadata.outputs.unique_name }}.json
+
       - name: Copy files to submission directory
         run: |
           cp scenario.toml submissions/${{ steps.metadata.outputs.unique_name }}.toml
-          cp output/results.json results/${{ steps.metadata.outputs.unique_name }}.json
           cp output/provenance.json submissions/${{ steps.metadata.outputs.unique_name }}.provenance.json
-
+          cp output/naamse_report_adversarial.pdf results/${{ steps.metadata.outputs.unique_name }}_adversarial.pdf
+          cp output/naamse_report_benign.pdf results/${{ steps.metadata.outputs.unique_name }}_benign.pdf
       - name: Determine target repository
         id: target
         env:
@@ -108,7 +129,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add submissions/${{ steps.metadata.outputs.unique_name }}.toml submissions/${{ steps.metadata.outputs.unique_name }}.provenance.json results/${{ steps.metadata.outputs.unique_name }}.json
+          git add submissions/${{ steps.metadata.outputs.unique_name }}.toml \
+                  submissions/${{ steps.metadata.outputs.unique_name }}.provenance.json \
+                  results/${{ steps.metadata.outputs.unique_name }}.json \
+                  adversarial_reports/${{ steps.metadata.outputs.unique_name }}_adversarial.pdf \
+                  benign_reports/${{ steps.metadata.outputs.unique_name }}_benign.pdf
           git commit -m "Submission: ${{ steps.metadata.outputs.unique_name }}
 
           Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
