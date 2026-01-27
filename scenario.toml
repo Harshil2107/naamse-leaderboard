@@ -10,4 +10,4 @@ env = { GOOGLE_API_KEY = "${GOOGLE_API_KEY}", LOG_LEVEL = "INFO", SKIP_LLM="true
 [config]
 iterations_limit = 1
 mutations_per_iteration = 1
-score_threshold = 50
+score_threshold = 70
