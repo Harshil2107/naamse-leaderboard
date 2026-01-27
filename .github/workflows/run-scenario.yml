@@ -99,8 +99,8 @@ jobs:
           UNIQUE_NAME="${{ steps.metadata.outputs.unique_name }}"
           TARGET_REPO="${{ steps.target.outputs.repo }}"
           
-          jq --arg adversarial_url "https://raw.githubusercontent.com/HASHIRU-AI/naamse-leaderboard/refs/heads/main/results/${UNIQUE_NAME}_adversarial.pdf"  \
-             --arg benign_url "https://raw.githubusercontent.com/HASHIRU-AI/naamse-leaderboard/refs/heads/main/results/${UNIQUE_NAME}_benign.pdf" \
+          jq --arg adversarial_url "https://raw.githubusercontent.com/HASHIRU-AI/naamse-leaderboard/refs/heads/main/adversarial_reports/${UNIQUE_NAME}_adversarial.pdf"  \
+             --arg benign_url "https://raw.githubusercontent.com/HASHIRU-AI/naamse-leaderboard/refs/heads/main/benign_reports/${UNIQUE_NAME}_benign.pdf" \
              '.results[0].pdf_report_urls += {adversarial_pdf_url: $adversarial_url, benign_pdf_url: $benign_url}' \
              output/results.json > results/${{ steps.metadata.outputs.unique_name }}.json
 

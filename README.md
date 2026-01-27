@@ -1,5 +1,5 @@
 # Agentbeats Leaderboard Template
-> Use this template to create a leaderboard repository for your green agent.
+> Use this template to create a leaderboard repository for your green agent
 
 A leaderboard repository contains:
 - A scenario runner (GitHub Actions workflow) that is used to run assessments with your green agent
