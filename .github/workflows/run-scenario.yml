@@ -108,8 +108,8 @@ jobs:
         run: |
           cp scenario.toml submissions/${{ steps.metadata.outputs.unique_name }}.toml
           cp output/provenance.json submissions/${{ steps.metadata.outputs.unique_name }}.provenance.json
-          cp output/naamse_report_adversarial.pdf results/${{ steps.metadata.outputs.unique_name }}_adversarial.pdf
-          cp output/naamse_report_benign.pdf results/${{ steps.metadata.outputs.unique_name }}_benign.pdf
+          cp output/naamse_report_adversarial.pdf adversarial_reports/${{ steps.metadata.outputs.unique_name }}_adversarial.pdf
+          cp output/naamse_report_benign.pdf benign_reports/${{ steps.metadata.outputs.unique_name }}_benign.pdf
       - name: Determine target repository
         id: target
         env:
