@@ -1,8 +1,0 @@
-{
-  "image_digests": {
-    "green-agent": "ghcr.io/hashiru-ai/naamse-naamse-green-agent@sha256:13b6114505ced21b3dd7a14cf3f5d3344eba732c66fabbaac5849df8d049cd10",
-    "agent": "ghcr.io/hashiru-ai/naamse-naamse-purple-agent@sha256:8911239c21df761c414848d8f6d5c39a0a16c1b7337104bd98e27cabb93cd268",
-    "agentbeats-client": "ghcr.io/agentbeats/agentbeats-client@sha256:13dfe3ef4e583a80e7ce2fe3becd0ce3b879841368a7f4fa40b6ebbabeeb014e"
-  },
-  "timestamp": "2026-01-28T09:02:45Z"
-}
